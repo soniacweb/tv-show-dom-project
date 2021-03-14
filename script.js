@@ -1,12 +1,105 @@
 //You can edit ALL of the code here
+
+// For each episode, AT LEAST following must be displayed:
+// the episode's name
+// the season number
+// the episode number
+// the episode's medium-sized image
+// the episode's summary text
+
 function setup() {
   const allEpisodes = getAllEpisodes();
   makePageForEpisodes(allEpisodes);
+  console.log(allEpisodes);
 }
 
 function makePageForEpisodes(episodeList) {
+  //   <div class="card" style="width: 18rem;">
+  //   <img class="card-img-top" src="..." alt="Card image cap">
+  //   <div class="card-body">
+  //     <h5 class="card-title">Card title</h5>
+  //     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  //     <a href="#" class="btn btn-primary">Go somewhere</a>
+  //   </div>
+  // </div>
   const rootElem = document.getElementById("root");
-  rootElem.textContent = `Got ${episodeList.length} episode(s)`;
+
+  // rootElem.textContent = `Got ${episodeList.length} episode(s)`;
+
+  console.log("root element", rootElem);
+  episodeList.forEach((episode) => {
+    const card = document.createElement("div");
+    card.classList.add("card");
+    card.style.width = "18rem";
+
+    const h3 = document.createElement("h3");
+    h3.classList.add("card-title");
+    h3.textContent = `${episode.name} - S${episode.season} E${episode.number}`;
+    h3.style.margin = "20px 5px auto";
+    h3.style.padding = "6px";
+    h3.style.textAlign = "center";
+
+    card.appendChild(h3);
+
+    const img = document.createElement("img");
+    img.classList.add("card-img-top");
+    img.src = episode.image.medium;
+    img.style.display = "block";
+    img.style.margin = "0 auto";
+    img.style.width = "30rem";
+    card.appendChild(img);
+
+    const cardBody = document.createElement("div");
+    cardBody.classList.add("card-body");
+    const h5 = document.createElement("h5");
+    h5.classList.add("card-title");
+    h5.textContent = episode.name;
+    h5.style.textAlign = "center";
+
+    const p = document.createElement("p");
+    p.classList.add("card-text");
+    p.textContent = episode.summary.replace(/<[^>]*>?/gm, "");
+    // p.style.paddingRight = "10px";
+    p.style.margin = "10px, 15px 0, 0";
+
+    const elementArray = [h5, p];
+    elementArray.forEach((el) => cardBody.appendChild(el));
+
+    // console.log(cardBody);
+    card.appendChild(cardBody);
+    rootElem.appendChild(card);
+
+    // const rooElemStyling = [
+    //   'display = "flex"',
+    //   'flexWrap = "wrap"',
+    //   'justifyContent = "space-around"',
+    //   'width = "95%"',
+    // ];
+    // rooElemStyling.forEach((style) => console.log(`rootElem.style.${style}`));
+
+    rootElem.style.display = "flex";
+    rootElem.style.flexWrap = "wrap";
+    rootElem.style.justifyContent = "space-around";
+    rootElem.style.backgroundColor = "black";
+
+    // console.log("name", episode.name, episode.season, episode.number);
+  });
+
+  const allCards = document.querySelectorAll(".card");
+  console.log(allCards);
+  [...allCards].forEach(
+    (card) =>
+      // console.log(card)
+      (card.style.width = "30rem")
+  );
+  const footer = document.createElement("footer");
+  const a = document.createElement("a");
+  a.href = "https://www.tvmaze.com/";
+  a.textContent = " TVMaze API";
+  footer.textContent = `Created by SC using the`;
+  console.log(footer);
+  footer.appendChild(a);
+  rootElem.appendChild(footer);
 }
 
 window.onload = setup;
