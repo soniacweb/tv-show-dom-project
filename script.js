@@ -6,6 +6,7 @@
 // the episode number
 // the episode's medium-sized image
 // the episode's summary text
+const rootElem = document.getElementById("root");
 
 function setup() {
   const allEpisodes = getAllEpisodes();
@@ -22,7 +23,6 @@ function makePageForEpisodes(episodeList) {
   //     <a href="#" class="btn btn-primary">Go somewhere</a>
   //   </div>
   // </div>
-  const rootElem = document.getElementById("root");
 
   // rootElem.textContent = `Got ${episodeList.length} episode(s)`;
 
@@ -102,4 +102,43 @@ function makePageForEpisodes(episodeList) {
   rootElem.appendChild(footer);
 }
 
+function addSearch() {
+  //   <nav class="navbar navbar-light bg-light">
+  //   <form class="form-inline">
+  //     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+  //     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  //   </form>
+  // </nav>
+  //searchbar
+  const nav = document.createElement("nav");
+  nav.classList.add("navbar", "navbar-light", "bg-light");
+  nav.style.margin = "20px";
+  const form = document.createElement("form");
+  form.classList.add("form-inline");
+  const input = document.createElement("input");
+  input.classList.add("form-control", "mr-sm-2");
+  input.setAttribute("type", "search");
+  input.setAttribute("placeholder", "Search");
+  input.setAttribute("aria-label", "Search");
+  const button = document.createElement("button");
+  button.classList.add("btn", "btn-outline-success", "my-2", "my-sm-0");
+  button.setAttribute("type", "submit");
+  button.textContent = "Search";
+  button.style.margin = "20px";
+
+  form.appendChild(input);
+  form.appendChild(button);
+  nav.appendChild(form);
+  rootElem.appendChild(nav);
+  console.log(nav);
+
+  const selectInputVal = document.querySelector(".form-control");
+  console.log("selecting input", selectInputVal);
+  // const episodes = makePageForEpisodes();
+  // console.log(episodes);
+  // const filtered = episodes.filter(ep === input.value ? ep : "");
+  // console(filtered);
+}
+
+addSearch();
 window.onload = setup;
