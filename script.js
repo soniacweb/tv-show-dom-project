@@ -1,27 +1,75 @@
-//You can edit ALL of the code here
 
-// For each episode, AT LEAST following must be displayed:
-// the episode's name
-// the season number
-// the episode number
-// the episode's medium-sized image
-// the episode's summary text
 const rootElem = document.getElementById("root");
 const mainContainer= document.getElementsByClassName('container-div')[0];
 console.log(mainContainer)
+const nav = document.createElement("nav");
+
+
+function setup() {
+  const allEpisodes = getAllEpisodes();
+  makePageForEpisodes(allEpisodes);
+  addFilter(allEpisodes);
+  addSearch();
+  console.log(allEpisodes);
+}
+
+// add filter 
+function addFilter(allEpisodes) {
+  const div = document.createElement('div') 
+  div.classList.add("dropdown");
+  const button = document.createElement('button') 
+  button.classList.add("btn", "btn-secondary", "btn-lg", "dropdown-toggle");
+  button.setAttribute("id", "dropdownMenuButton")
+  button.setAttribute("data-toggle", "dropdown"); 
+  button.setAttribute("aria-haspopup", "true");
+  button.setAttribute("aria-expanded", "false");
+  button.innerText = 'Filter Episodes'
+  div.appendChild(button)
+
+  const dropdown = document.createElement('div');
+  dropdown.classList.add("dropdown-menu");
+  dropdown.setAttribute("aria-labelledby", "dropdownMenuButton")
+
+
+allEpisodes.forEach(episode => {
+const a = document.createElement('a')
+a.classList.add("dropdown-item")
+a.setAttribute("href", "#")
+a.innerText = `${episode.name} - S${episode.season} E${episode.number}`;
+a.style.color = 'black';
+dropdown.appendChild(a) 
+
+}
+)
+div.appendChild(dropdown)
+nav.appendChild(div);
+
+// const aTags = Array.from(document.getElementsByClassName('dropdown-item')).forEach((el, i) => console.log(el[i]))
+
+// console.log('a tags', aTags)
+// let value;
+// for (let item of aTags) {
+//   value = item.innerText;
+//   console.log(aTags[item], item.innerText);
+// }
+// console.log(value)
+}
+
+
 
 // search bar
 function addSearch() {
-  //   <nav class="navbar navbar-light bg-light">
-  //   <form class="form-inline">
-  //     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-  //     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-  //   </form>
-  // </nav>
   //searchbar
-  const nav = document.createElement("nav");
   nav.classList.add("navbar", "navbar-light", "bg-light");
   nav.style.margin = "20px";
+  nav.style.display = 'flex';
+  nav.style.justifyContent = 'space-evenly'
+  nav.style.height = '400px';
+  // nav.style.background = 'url("https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80") cover';
+  // nav.style.background.position = 'cover';
+  // nav.style.background.height = '100%';
+
+
   const form = document.createElement("form");
   form.classList.add("form-inline");
   const input = document.createElement("input");
@@ -34,22 +82,18 @@ function addSearch() {
   input.setAttribute("placeholder", "Search");
   input.setAttribute("aria-label", "Search");
 
-
   form.appendChild(input);
-  // form.appendChild(button);
   nav.appendChild(form);
 
   mainContainer.appendChild(nav);
   // console.log(nav);
 
-  // const selectInputVal = document.querySelector(".form-control");
-  // console.log("selecting input", selectInputVal);
  
 }
 
 function myFunction() {
   // Declare variables
-  let input, filter, container, div, h3, i, txtValue;
+  let input, filter, container, h3, txtValue;
   input = document.getElementById('myInput');
   filter = input.value.toUpperCase();
   // console.log(filter)
@@ -65,7 +109,7 @@ function myFunction() {
     txtValue = h3.textContent || h3.innerText;
     if (txtValue.toUpperCase().indexOf(filter) > -1) {
       card.style.display = "";
-      console.log('card length', cards.length)
+      // console.log('card length', cards.length)
     } else {
       card.style.display = "none";
     }
@@ -74,13 +118,7 @@ function myFunction() {
 else return;
 }
 
-addSearch();
 
-function setup() {
-  const allEpisodes = getAllEpisodes();
-  makePageForEpisodes(allEpisodes);
-  console.log(allEpisodes);
-}
 
 function makePageForEpisodes(episodeList) {
   //   <div class="card" style="width: 18rem;">
@@ -94,11 +132,12 @@ function makePageForEpisodes(episodeList) {
 
   // rootElem.textContent = `Got ${episodeList.length} episode(s)`;
 
-  console.log("root element", rootElem);
+  // console.log("root element", rootElem);
   episodeList.forEach((episode) => {
     const card = document.createElement("div");
     card.classList.add("card");
     card.style.width = "18rem";
+    card.style.backgroundColor = 'transparent';
 
     const h3 = document.createElement("h3");
     h3.classList.add("card-title");
@@ -147,7 +186,7 @@ function makePageForEpisodes(episodeList) {
   });
 
   const allCards = document.querySelectorAll(".card");
-  console.log(allCards);
+  // console.log(allCards);
   [...allCards].forEach(
     (card) =>
       // console.log(card)
@@ -158,7 +197,6 @@ function makePageForEpisodes(episodeList) {
   a.href = "https://www.tvmaze.com/";
   a.textContent = " TVMaze API";
   footer.textContent = `Created by SC using the`;
-  console.log(footer);
   footer.appendChild(a);
   rootElem.appendChild(footer);
 }
