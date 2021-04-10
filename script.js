@@ -7,6 +7,74 @@
 // the episode's medium-sized image
 // the episode's summary text
 const rootElem = document.getElementById("root");
+const mainContainer= document.getElementsByClassName('container-div')[0];
+console.log(mainContainer)
+
+// search bar
+function addSearch() {
+  //   <nav class="navbar navbar-light bg-light">
+  //   <form class="form-inline">
+  //     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+  //     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  //   </form>
+  // </nav>
+  //searchbar
+  const nav = document.createElement("nav");
+  nav.classList.add("navbar", "navbar-light", "bg-light");
+  nav.style.margin = "20px";
+  const form = document.createElement("form");
+  form.classList.add("form-inline");
+  const input = document.createElement("input");
+  input.classList.add("form-control", "mr-sm-2");
+  input.setAttribute("type", "text");
+  input.setAttribute("id", "myInput");
+
+  input.setAttribute("onkeyup", "myFunction()");
+
+  input.setAttribute("placeholder", "Search");
+  input.setAttribute("aria-label", "Search");
+
+
+  form.appendChild(input);
+  // form.appendChild(button);
+  nav.appendChild(form);
+
+  mainContainer.appendChild(nav);
+  // console.log(nav);
+
+  // const selectInputVal = document.querySelector(".form-control");
+  // console.log("selecting input", selectInputVal);
+ 
+}
+
+function myFunction() {
+  // Declare variables
+  let input, filter, container, div, h3, i, txtValue;
+  input = document.getElementById('myInput');
+  filter = input.value.toUpperCase();
+  // console.log(filter)
+  container = document.getElementById("root");
+  cards = container.getElementsByTagName('div');
+  // console.log('cards', cards)
+
+  // Loop through all list items, and hide those who don't match the search query
+  if ( typeof(filter) !== 'undefined' && filter !== null ) {
+  for (card of cards) {
+    // console.log('card', card)
+    h3 = card.getElementsByClassName("card-title")[0];
+    txtValue = h3.textContent || h3.innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      card.style.display = "";
+      console.log('card length', cards.length)
+    } else {
+      card.style.display = "none";
+    }
+  }
+}
+else return;
+}
+
+addSearch();
 
 function setup() {
   const allEpisodes = getAllEpisodes();
@@ -69,14 +137,7 @@ function makePageForEpisodes(episodeList) {
     card.appendChild(cardBody);
     rootElem.appendChild(card);
 
-    // const rooElemStyling = [
-    //   'display = "flex"',
-    //   'flexWrap = "wrap"',
-    //   'justifyContent = "space-around"',
-    //   'width = "95%"',
-    // ];
-    // rooElemStyling.forEach((style) => console.log(`rootElem.style.${style}`));
-
+  
     rootElem.style.display = "flex";
     rootElem.style.flexWrap = "wrap";
     rootElem.style.justifyContent = "space-around";
@@ -102,43 +163,5 @@ function makePageForEpisodes(episodeList) {
   rootElem.appendChild(footer);
 }
 
-function addSearch() {
-  //   <nav class="navbar navbar-light bg-light">
-  //   <form class="form-inline">
-  //     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-  //     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-  //   </form>
-  // </nav>
-  //searchbar
-  const nav = document.createElement("nav");
-  nav.classList.add("navbar", "navbar-light", "bg-light");
-  nav.style.margin = "20px";
-  const form = document.createElement("form");
-  form.classList.add("form-inline");
-  const input = document.createElement("input");
-  input.classList.add("form-control", "mr-sm-2");
-  input.setAttribute("type", "search");
-  input.setAttribute("placeholder", "Search");
-  input.setAttribute("aria-label", "Search");
-  const button = document.createElement("button");
-  button.classList.add("btn", "btn-outline-success", "my-2", "my-sm-0");
-  button.setAttribute("type", "submit");
-  button.textContent = "Search";
-  button.style.margin = "20px";
 
-  form.appendChild(input);
-  form.appendChild(button);
-  nav.appendChild(form);
-  rootElem.appendChild(nav);
-  console.log(nav);
-
-  const selectInputVal = document.querySelector(".form-control");
-  console.log("selecting input", selectInputVal);
-  // const episodes = makePageForEpisodes();
-  // console.log(episodes);
-  // const filtered = episodes.filter(ep === input.value ? ep : "");
-  // console(filtered);
-}
-
-addSearch();
 window.onload = setup;
